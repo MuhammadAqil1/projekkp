@@ -172,35 +172,36 @@ def load_data():
     row1 = wb_raw.iloc[0].tolist()
     row2 = wb_raw.iloc[1].tolist()
 
-    # Buat MultiIndex columns
+    # Buat nama kolom
     cols = []
     cur_period = None
     for i, (r1, r2) in enumerate(zip(row1, row2)):
-        if r1 and str(r1) != "nan":
-            cur_period = str(r1)
-        if i < 5:          # kolom info (No, Kode, Nama, Subsektor, Satuan)
-            cols.append(str(r1) if str(r1) != "nan" else f"col_{i}")
+        r1_str = str(r1) if r1 is not None and not (isinstance(r1, float) and pd.isna(r1)) else ""
+        r2_str = str(r2) if r2 is not None and not (isinstance(r2, float) and pd.isna(r2)) else ""
+        if r1_str:
+            cur_period = r1_str
+        if i == 0:
+            cols.append("No")
+        elif i == 1:
+            cols.append("Kode")
+        elif i == 2:
+            cols.append("Nama Perusahaan")
+        elif i == 3:
+            cols.append("Subsektor")
+        elif i == 4:
+            cols.append("Satuan")
         else:
-            cols.append(f"{cur_period}|{r2}")
+            cols.append(f"{cur_period}|{r2_str}" if cur_period and r2_str else f"col_{i}")
 
     df = wb_raw.iloc[2:].copy()
     df.columns = cols
     df = df.reset_index(drop=True)
 
-    # Pastikan kolom info ada
-    df = df.rename(columns={
-        "No": "No",
-        "Kode": "Kode",
-        "Nama Perusahaan": "Nama Perusahaan",
-        "Subsektor": "Subsektor",
-        "Satuan": "Satuan",
-    })
-
     # Hapus baris tanpa ticker
     df = df[df["Kode"].notna() & (df["Kode"].astype(str).str.strip() != "")]
-    df["Kode"] = df["Kode"].astype(str).str.strip()
-    df["Subsektor"] = df["Subsektor"].astype(str).str.strip()
-    df["Satuan"] = df["Satuan"].astype(str).str.strip()
+    df["Kode"]           = df["Kode"].astype(str).str.strip()
+    df["Subsektor"]      = df["Subsektor"].astype(str).str.strip().fillna("")
+    df["Satuan"]         = df["Satuan"].astype(str).str.strip().fillna("Rupiah")
     df["Nama Perusahaan"] = df["Nama Perusahaan"].astype(str).str.strip()
 
     # Konversi kolom numerik
@@ -233,9 +234,14 @@ def growth_pct(new_val, old_val):
 # ─── LOAD ─────────────────────────────────────────────────────────────────────
 df = load_data()
 
-# Subsektor list (bersih)
-all_subsektors = sorted([s for s in df["Subsektor"].unique()
-                          if s not in ["nan","#N/A",""]])
+# Subsektor list (bersih) — filter None, NaN float, dan string kosong/invalid
+BAD_VALUES = {"nan", "#n/a", "#na", "", "none"}
+all_subsektors = sorted([
+    s for s in df["Subsektor"].unique()
+    if s is not None
+    and not (isinstance(s, float) and pd.isna(s))
+    and str(s).strip().lower() not in BAD_VALUES
+])
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR
