@@ -1,0 +1,31 @@
+# Raw data (terlalu besar untuk GitHub)
+raw_data/
+
+# Output dataset referensi (besar + berisi data sensitif)
+output_dataset.xlsx
+
+# Script pembantu
+buat_laporan.py
+extractor.py
+extractor.log
+Laporan_Extractor_IDX.docx
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Environment
+.env
+venv/
+.venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit
+.streamlit/secrets.toml
