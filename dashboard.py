@@ -26,33 +26,39 @@ html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
 }
 
-/* Dark gradient background */
+/* Light background */
 .stApp {
-    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b2a 50%, #0a1628 100%);
+    background: #f4f7fb;
 }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0d1b2a 0%, #0a1628 100%);
-    border-right: 1px solid rgba(46, 117, 182, 0.3);
+    background: linear-gradient(180deg, #1F4E79 0%, #2E75B6 100%);
+    border-right: 1px solid #2E75B6;
+}
+[data-testid="stSidebar"] * {
+    color: #ffffff !important;
+}
+[data-testid="stSidebar"] .stRadio label {
+    color: #ffffff !important;
 }
 
 /* Cards / Metric boxes */
 .metric-card {
-    background: linear-gradient(135deg, rgba(31,78,121,0.6) 0%, rgba(15,40,70,0.8) 100%);
-    border: 1px solid rgba(46,117,182,0.4);
+    background: #ffffff;
+    border: 1px solid #d0e4f7;
     border-radius: 16px;
     padding: 20px 24px;
     text-align: center;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 12px rgba(46,117,182,0.08);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 .metric-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(46,117,182,0.3);
+    box-shadow: 0 8px 24px rgba(46,117,182,0.15);
 }
 .metric-title {
-    color: rgba(180,210,255,0.7);
+    color: #5a7a9a;
     font-size: 12px;
     font-weight: 500;
     text-transform: uppercase;
@@ -60,55 +66,48 @@ html, body, [class*="css"] {
     margin-bottom: 6px;
 }
 .metric-value {
-    color: #7ec8e3;
+    color: #1F4E79;
     font-size: 28px;
     font-weight: 700;
     letter-spacing: -1px;
 }
 .metric-sub {
-    color: rgba(180,210,255,0.5);
+    color: #8aaac4;
     font-size: 11px;
     margin-top: 4px;
 }
 
 /* Section headers */
 .section-header {
-    background: linear-gradient(90deg, rgba(46,117,182,0.2) 0%, transparent 100%);
+    background: linear-gradient(90deg, #dbeafe 0%, #f4f7fb 100%);
     border-left: 4px solid #2E75B6;
     padding: 10px 16px;
     border-radius: 0 8px 8px 0;
     margin: 20px 0 16px 0;
-    color: #7ec8e3;
+    color: #1F4E79;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.5px;
-}
-
-/* Plotly container */
-.plot-container {
-    background: rgba(13,27,42,0.6);
-    border: 1px solid rgba(46,117,182,0.25);
-    border-radius: 12px;
-    padding: 4px;
 }
 
 /* Dataframe */
 [data-testid="stDataFrame"] {
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #d0e4f7;
 }
 
 /* Title */
 .main-title {
     font-size: 36px;
     font-weight: 700;
-    background: linear-gradient(135deg, #7ec8e3 0%, #2E75B6 100%);
+    background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1px;
 }
 .main-subtitle {
-    color: rgba(180,210,255,0.6);
+    color: #5a7a9a;
     font-size: 14px;
     margin-top: -10px;
 }
@@ -116,29 +115,18 @@ html, body, [class*="css"] {
 /* Divider */
 hr {
     border: none;
-    border-top: 1px solid rgba(46,117,182,0.2);
+    border-top: 1px solid #d0e4f7;
     margin: 24px 0;
 }
 
 /* Sidebar label */
 .sidebar-label {
-    color: rgba(180,210,255,0.8);
+    color: rgba(255,255,255,0.75);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
     margin-bottom: 4px;
-}
-
-/* Negative growth red, positive green */
-.pos { color: #4ade80; }
-.neg { color: #f87171; }
-
-/* Select box */
-div[data-baseweb="select"] > div {
-    background-color: rgba(13,27,42,0.8) !important;
-    border-color: rgba(46,117,182,0.4) !important;
-    color: #b4d2ff !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -158,10 +146,10 @@ COLOR_MAP  = {
     "Laba Usaha"         : "#F39C12",
     "Penambahan Aset Tetap": "#9B59B6",
 }
-CHART_BG   = "rgba(0,0,0,0)"
-PAPER_BG   = "rgba(0,0,0,0)"
-FONT_COLOR = "#b4d2ff"
-GRID_COLOR = "rgba(46,117,182,0.15)"
+CHART_BG   = "#ffffff"
+PAPER_BG   = "#f4f7fb"
+FONT_COLOR = "#1F4E79"
+GRID_COLOR = "rgba(46,117,182,0.12)"
 
 # ─── LOAD DATA ────────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner="Memuat data...")
@@ -252,8 +240,11 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown('<div class="sidebar-label">🗂️ Mode Tampilan</div>', unsafe_allow_html=True)
-    page = st.radio("", ["🏠 Overview", "🏢 Analisis Perusahaan", "📈 Tren Periode", "🏭 Analisis Sektor"],
-                    label_visibility="collapsed")
+    page = st.radio(
+        "Mode Tampilan",
+        ["🏠 Overview", "🏢 Analisis Perusahaan", "📈 Tren Periode", "🏭 Analisis Sektor"],
+        label_visibility="collapsed",
+    )
 
     st.markdown("---")
     st.markdown('<div class="sidebar-label">⚙️ Filter Global</div>', unsafe_allow_html=True)
@@ -269,7 +260,7 @@ with st.sidebar:
     sel_var    = st.selectbox("Variabel", VARS, index=0)
 
     st.markdown("---")
-    st.markdown(f'<div style="color:rgba(180,210,255,0.4);font-size:10px;text-align:center">Total: {len(df)} perusahaan · {len(PERIODS)} periode<br>Sumber: IDX XBRL</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="color:rgba(255,255,255,0.6);font-size:10px;text-align:center">Total: {len(df)} perusahaan · {len(PERIODS)} periode<br>Sumber: IDX XBRL</div>', unsafe_allow_html=True)
 
 # Filter df berdasarkan subsektor
 df_filtered = df.copy()
@@ -283,14 +274,16 @@ def apply_dark_theme(fig):
         paper_bgcolor=PAPER_BG,
         font=dict(color=FONT_COLOR, family="Inter"),
         xaxis=dict(gridcolor=GRID_COLOR, showgrid=True, zeroline=False,
-                   tickfont=dict(size=10), title_font=dict(size=11)),
+                   tickfont=dict(size=10, color=FONT_COLOR),
+                   title_font=dict(size=11, color=FONT_COLOR)),
         yaxis=dict(gridcolor=GRID_COLOR, showgrid=True, zeroline=False,
-                   tickfont=dict(size=10), title_font=dict(size=11)),
+                   tickfont=dict(size=10, color=FONT_COLOR),
+                   title_font=dict(size=11, color=FONT_COLOR)),
         legend=dict(
-            bgcolor="rgba(13,27,42,0.7)",
-            bordercolor="rgba(46,117,182,0.3)",
+            bgcolor="#ffffff",
+            bordercolor="#d0e4f7",
             borderwidth=1,
-            font=dict(size=10),
+            font=dict(size=10, color=FONT_COLOR),
         ),
         margin=dict(t=40, b=40, l=50, r=20),
     )
@@ -320,7 +313,7 @@ if page == "🏠 Overview":
         growth = growth_pct(total_val, prev_total)
         growth_str = (f"{'▲' if growth > 0 else '▼'} {abs(growth):.1f}% vs {prev_period}"
                       if growth is not None else "—")
-        growth_color = "#4ade80" if (growth or 0) > 0 else "#f87171"
+        growth_color = "#16a34a" if (growth or 0) > 0 else "#dc2626"
     else:
         growth_str = "—"
         growth_color = FONT_COLOR
@@ -748,8 +741,8 @@ elif page == "🏭 Analisis Sektor":
 # ─── Footer ───────────────────────────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    '<div style="text-align:center;color:rgba(180,210,255,0.3);font-size:11px">'
-    'Dashboard Keuangan IDX · Data Sumber: Bursa Efek Indonesia (XBRL) · Dibuat dengan Streamlit + Plotly'
+    '<div style="text-align:center;color:#8aaac4;font-size:11px">'
+    'Dashboard Keuangan IDX · Data Sumber: Bursa Efek Indonesia (XBRL)'
     '</div>',
     unsafe_allow_html=True
 )
