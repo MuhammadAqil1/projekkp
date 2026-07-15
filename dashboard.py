@@ -435,12 +435,13 @@ elif page == "🏢 Analisis Perusahaan":
 
     with col_s2:
         st.markdown(f"""
-        <div style="background:rgba(31,78,121,0.3);border:1px solid rgba(46,117,182,0.4);
-                    border-radius:12px;padding:14px 20px;margin-top:4px">
-            <span style="color:#7ec8e3;font-weight:700;font-size:20px">{sel_company}</span>
-            <span style="color:rgba(180,210,255,0.7);font-size:14px;margin-left:12px">{nama}</span>
+        <div style="background:#ffffff;border:1px solid #d0e4f7;
+                    border-radius:12px;padding:14px 20px;margin-top:4px;
+                    box-shadow: 0 2px 12px rgba(46,117,182,0.08);">
+            <span style="color:#1F4E79;font-weight:700;font-size:20px">{sel_company}</span>
+            <span style="color:#5a7a9a;font-size:14px;margin-left:12px">{nama}</span>
             <br>
-            <span style="color:rgba(180,210,255,0.5);font-size:12px">📌 {subsektor} &nbsp;|&nbsp; 💰 Satuan: {satuan}</span>
+            <span style="color:#8aaac4;font-size:12px">📌 {subsektor} &nbsp;|&nbsp; 💰 Satuan: {satuan}</span>
         </div>
         """, unsafe_allow_html=True)
 
