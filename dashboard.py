@@ -36,11 +36,13 @@ html, body, [class*="css"] {
     background: linear-gradient(180deg, #1F4E79 0%, #2E75B6 100%);
     border-right: 1px solid #2E75B6;
 }
-[data-testid="stSidebar"] * {
+[data-testid="stSidebar"] p, 
+[data-testid="stSidebar"] label {
     color: #ffffff !important;
 }
-[data-testid="stSidebar"] .stRadio label {
-    color: #ffffff !important;
+/* Revert text color inside input boxes so they are readable (dark blue on white) */
+[data-testid="stSidebar"] div[data-baseweb="select"] * {
+    color: #1F4E79 !important;
 }
 
 /* Cards / Metric boxes */
